@@ -61,6 +61,7 @@ struct ContentView: View {
     func requestLogin(username: String, password: String) -> Bool {
         let req = query(address: URL(string: "https://api.james.baby/s/internal/login?username=\(username)&password=\(password)")!)
         if(req.statusCode == 200) {
+            print(req.attributeKeys)
             return true
         } else {
             return false
