@@ -9,7 +9,9 @@ import SwiftUI
 import WebKit
 
 struct ContentView: View {
-    @AppStorage("name") var name = "User"
+    @State var username: String = ""
+    @State var password: String = ""
+    @State var errortext: String = ""
     
     var body: some View {
         ZStack {
@@ -20,21 +22,26 @@ struct ContentView: View {
                 .padding(.top, 60)
                 .font(.title)
             ZStack {
-                TextField("Username", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+                TextField("Username", text: $username)
                     .frame(width: 400, height: 50)
                     .padding(.top, 350)
                     .textFieldStyle(.automatic)
                     .font(Font.system(size: 20, design: .default))
-                TextField("Password", text: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Value@*/.constant("")/*@END_MENU_TOKEN@*/)
+                SecureField("Password", text: $password)
                     .frame(width: 400, height: 50)
                     .padding(.top, 420)
                     .textFieldStyle(.automatic)
                     .font(Font.system(size: 20, design: .rounded))
+                    .privacySensitive()
                 
                 Button("Log In") {
                     logUser()
                 }
                 .padding(.top, 500)
+                
+                Text(errortext)
+                    .foregroundColor(Color.orange)
+                    .padding(.top, 600)
             }
             
         }
@@ -43,24 +50,29 @@ struct ContentView: View {
         .padding(.bottom, 300.0)
     }
     func logUser() {
-        let request = requestLogin(username: "synk", password: "synk")
-        
+        let request = requestLogin(username: username, password: password)
+        if (request == true) {
+            
+        } else {
+            errortext = "Incorrect Username or Password!"
+            password = ""
+        }
     }
-    func requestLogin(username: String, password: String) {
+    func requestLogin(username: String, password: String) -> Bool {
         let req = query(address: URL(string: "https://api.james.baby/s/internal/login?username=\(username)&password=\(password)")!)
         if(req.statusCode == 200) {
-            print("WELCOME!!")
+            return true
         } else {
-            print("BRUH")
+            return false
         }
     }
     func query(address: URL) -> HTTPURLResponse {
         var url = URLRequest(url: address)
-        url.setValue("https://james.baby", forHTTPHeaderField: "origin")
+        url.setValue("https://james.baby", forHTTPHeaderField: "Origin")
         
         let semaphore = DispatchSemaphore(value: 0)
         
-        var result: HTTPURLResponse
+        var result: Any? = nil
         
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
             result = (response as? HTTPURLResponse)!
@@ -69,7 +81,7 @@ struct ContentView: View {
         
         task.resume()
         semaphore.wait()
-        return result
+        return result as! HTTPURLResponse
     }
 }
 
