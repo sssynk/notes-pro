@@ -9,29 +9,18 @@ import SwiftUI
 
 @main
 struct swiftappApp: App {
-    init() {
-        UserDefaults.standard.register(defaults: [
-            "name": "James Wilson",
-            "highScore": 10
-        ])
-        
-
-        if let url = URL(string: "https://api.james.baby/school/getcurrentalerts") {
-            do {
-                let contents = try String(contentsOf: url)
-                print(contents)
-            } catch {
-                // contents could not be loaded
-            }
-        } else {
-            // the URL was bad!
-        }
-
-    }
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(myWindow: nil)
         }
+        WindowGroup("Viewer") { // other scene
+            Viewer().handlesExternalEvents(preferring: Set(arrayLiteral: "viewer"), allowing: Set(arrayLiteral: "*")) // activate existing window if exists
+        }
+        .handlesExternalEvents(matching: Set(arrayLiteral: "viewer")) // create new window if one doesn't exist
+        WindowGroup("Login") { // other scene
+            Viewer().handlesExternalEvents(preferring: Set(arrayLiteral: "login"), allowing: Set(arrayLiteral: "*")) // activate existing window if exists
+        }
+        .handlesExternalEvents(matching: Set(arrayLiteral: "login")) // create new window if one doesn't exist
     }
 }
 

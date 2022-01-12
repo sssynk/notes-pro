@@ -14,6 +14,7 @@
 		101D76C6278CBFD7005423E0 /* swiftappTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101D76C5278CBFD7005423E0 /* swiftappTests.swift */; };
 		101D76D0278CBFD7005423E0 /* swiftappUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101D76CF278CBFD7005423E0 /* swiftappUITests.swift */; };
 		101D76D2278CBFD7005423E0 /* swiftappUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101D76D1278CBFD7005423E0 /* swiftappUITestsLaunchTests.swift */; };
+		101D76E2278F7843005423E0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101D76E1278F7843005423E0 /* MainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,8 @@
 		101D76CB278CBFD7005423E0 /* swiftappUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = swiftappUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		101D76CF278CBFD7005423E0 /* swiftappUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swiftappUITests.swift; sourceTree = "<group>"; };
 		101D76D1278CBFD7005423E0 /* swiftappUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swiftappUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		101D76E0278F4B46005423E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		101D76E1278F7843005423E0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,11 +98,13 @@
 		101D76B2278CBFD5005423E0 /* swiftapp */ = {
 			isa = PBXGroup;
 			children = (
+				101D76E0278F4B46005423E0 /* Info.plist */,
 				101D76B3278CBFD5005423E0 /* swiftappApp.swift */,
 				101D76B5278CBFD5005423E0 /* ContentView.swift */,
 				101D76B7278CBFD7005423E0 /* Assets.xcassets */,
 				101D76BC278CBFD7005423E0 /* swiftapp.entitlements */,
 				101D76B9278CBFD7005423E0 /* Preview Content */,
+				101D76E1278F7843005423E0 /* MainView.swift */,
 			);
 			path = swiftapp;
 			sourceTree = "<group>";
@@ -260,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				101D76B6278CBFD5005423E0 /* ContentView.swift in Sources */,
+				101D76E2278F7843005423E0 /* MainView.swift in Sources */,
 				101D76B4278CBFD5005423E0 /* swiftappApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -427,6 +433,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = swiftapp/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -456,6 +463,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = swiftapp/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
