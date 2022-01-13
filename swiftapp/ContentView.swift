@@ -36,10 +36,10 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            Text("james.baby notes")
+            Text("Notes Pro")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-            Text("sign in")
+            Text("Log In")
                 .padding(.top, 60)
                 .font(.title)
             ZStack {
@@ -208,6 +208,8 @@ struct Login: View {
             .frame(width: 300, height: 500, alignment: .leading)
             ZStack {
                 HStack {
+                    Text(savestr)
+                    .padding(.bottom, 70)
                     Button("New Note") {
                         newVis()
                     }
@@ -216,8 +218,7 @@ struct Login: View {
                         handleSave()
                     }
                     .padding(.bottom, 70)
-                    Text(savestr)
-                    .padding(.bottom, 70)
+                    .padding(.trailing, 10)
                 }
                 .frame(width: 500, height: 500, alignment: .topTrailing)
                 .padding(.bottom, 80)

@@ -12,6 +12,7 @@ struct swiftappApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(myWindow: nil)
+                .navigationTitle("Notes Pro - Login")
         }
         .handlesExternalEvents(matching: Set(arrayLiteral: "viewer")) // create new window if one doesn't exist
         WindowGroup("Login") { // other scene
