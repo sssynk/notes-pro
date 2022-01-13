@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WebKit
+import Combine
 
 
 struct Note: Identifiable, Equatable {
@@ -98,6 +99,7 @@ struct ContentView: View {
             window.setFrameAutosaveName("Main Window")
             window.contentView = NSHostingView(rootView: Login().environmentObject(current_data))
             window.makeKeyAndOrderFront(nil)
+            window.title = "Notes Pro"
         } else {
             errortext = "Incorrect Username or Password!"
             password = ""
@@ -186,20 +188,23 @@ struct Login: View {
     @State var title: String = ""
     @State var cont: String = ""
     @State var savestr: String = ""
+    @State var autoSaveEnabled = true
     @State var currentNote: Note = Note(noteid: "n/a", title: "n/a", contents: "n/a")
     @EnvironmentObject private var current_data: CurrentApp
     var body: some View {
         HStack {
             List {
-                ForEach(current_data.all_notes) { note in
+                ForEach(current_data.all_notes.reversed()) { note in
                     Button("\(note.title)\n\(note.contents)"){
                         loadNote(note: note)
                     }.padding()
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background(RoundedRectangle(cornerRadius: 8).fill(Color(red: 50 / 255, green: 50 / 255, blue: 50 / 255)))
                         .buttonStyle(PlainButtonStyle())
+                        .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
+                        .zIndex(1)
                 }
-            }
+            }.animation(.interactiveSpring())
             .frame(width: 300, height: 500, alignment: .leading)
             ZStack {
                 HStack {
@@ -214,19 +219,45 @@ struct Login: View {
                     Text(savestr)
                     .padding(.bottom, 70)
                 }
-                .frame(width: 500, height: 500, alignment: .topLeading)
+                .frame(width: 500, height: 500, alignment: .topTrailing)
                 .padding(.bottom, 80)
                 .padding(.top, 10)
                 
                 TextField("Note Title", text: $title)
+                    .background(
+                           RoundedRectangle(cornerRadius: 5)
+                               .fill(Color.white.opacity(0)
+                           )
+                    )
+                    .font(.largeTitle)
+                    .textFieldStyle(.plain)
                     .frame(width: 500, height: 500, alignment: .topLeading)
-                TextEditor(text: $cont)
+                    .onDebouncedChange(of: $title, debounceFor: 2) {
+                        value in
+                        autoSave()
+                    }
+                TextField("Note Contents", text: $cont)
+                    .background(
+                           RoundedRectangle(cornerRadius: 5)
+                               .fill(Color.white.opacity(0)
+                           )
+                    )
+                    .textFieldStyle(.plain)
                     .frame(width: 500, height: 500, alignment: .topLeading)
-                    .padding(.top, 50)
+                    .padding(.top, 70)
+                    .onDebouncedChange(of: $cont, debounceFor: 2) {
+                        value in
+                        autoSave()
+                    }
             }
         }.onAppear(perform: {
             print("loaded!")
         })
+    }
+    func autoSave() {
+        if(autoSaveEnabled == true && currentNote.contents != cont || currentNote.title != title) {
+            handleSave()
+        }
     }
     func loadNote(note: Note) {
         title = note.title
@@ -345,5 +376,68 @@ struct Login: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(myWindow: nil)
+    }
+}
+
+extension View {
+    func onDebouncedChange<V>(
+        of binding: Binding<V>,
+        debounceFor dueTime: TimeInterval,
+        perform action: @escaping (V) -> Void
+    ) -> some View where V: Equatable {
+        modifier(ListenDebounce(binding: binding, dueTime: dueTime, action: action))
+    }
+}
+
+private struct ListenDebounce<Value: Equatable>: ViewModifier {
+    @Binding
+    var binding: Value
+    @StateObject
+    var debounceSubject: ObservableDebounceSubject<Value, Never>
+    let action: (Value) -> Void
+
+    init(binding: Binding<Value>, dueTime: TimeInterval, action: @escaping (Value) -> Void) {
+        _binding = binding
+        _debounceSubject = .init(wrappedValue: .init(dueTime: dueTime))
+        self.action = action
+    }
+
+    func body(content: Content) -> some View {
+        content
+            .onChange(of: binding) { value in
+                debounceSubject.send(value)
+            }
+            .onReceive(debounceSubject) { value in
+                action(value)
+            }
+    }
+}
+
+private final class ObservableDebounceSubject<Output: Equatable, Failure>: Subject, ObservableObject where Failure: Error {
+    private let passthroughSubject = PassthroughSubject<Output, Failure>()
+
+    let dueTime: TimeInterval
+
+    init(dueTime: TimeInterval) {
+        self.dueTime = dueTime
+    }
+
+    func send(_ value: Output) {
+        passthroughSubject.send(value)
+    }
+
+    func send(completion: Subscribers.Completion<Failure>) {
+        passthroughSubject.send(completion: completion)
+    }
+
+    func send(subscription: Subscription) {
+        passthroughSubject.send(subscription: subscription)
+    }
+
+    func receive<S>(subscriber: S) where S: Subscriber, Failure == S.Failure, Output == S.Input {
+        passthroughSubject
+            .removeDuplicates()
+            .debounce(for: .init(dueTime), scheduler: RunLoop.main)
+            .receive(subscriber: subscriber)
     }
 }
