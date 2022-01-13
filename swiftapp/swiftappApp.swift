@@ -13,12 +13,9 @@ struct swiftappApp: App {
         WindowGroup {
             ContentView(myWindow: nil)
         }
-        WindowGroup("Viewer") { // other scene
-            Viewer().handlesExternalEvents(preferring: Set(arrayLiteral: "viewer"), allowing: Set(arrayLiteral: "*")) // activate existing window if exists
-        }
         .handlesExternalEvents(matching: Set(arrayLiteral: "viewer")) // create new window if one doesn't exist
         WindowGroup("Login") { // other scene
-            Viewer().handlesExternalEvents(preferring: Set(arrayLiteral: "login"), allowing: Set(arrayLiteral: "*")) // activate existing window if exists
+            Login().handlesExternalEvents(preferring: Set(arrayLiteral: "login"), allowing: Set(arrayLiteral: "*")) // activate existing window if exists
         }
         .handlesExternalEvents(matching: Set(arrayLiteral: "login")) // create new window if one doesn't exist
     }
