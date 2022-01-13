@@ -185,6 +185,7 @@ struct ContentView: View {
 struct Login: View {
     @State var title: String = ""
     @State var cont: String = ""
+    @State var savestr: String = ""
     @State var currentNote: Note = Note(noteid: "n/a", title: "n/a", contents: "n/a")
     @EnvironmentObject private var current_data: CurrentApp
     var body: some View {
@@ -209,6 +210,8 @@ struct Login: View {
                     Button("Save Note") {
                         handleSave()
                     }
+                    .padding(.bottom, 70)
+                    Text(savestr)
                     .padding(.bottom, 70)
                 }
                 .frame(width: 500, height: 500, alignment: .topLeading)
@@ -235,10 +238,20 @@ struct Login: View {
         cont = ""
         currentNote = Note(noteid: "n/a", title: "", contents: "")
     }
+    func setStr(text: String) {
+        savestr = text
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            if (savestr == text) {
+                savestr = ""
+            }
+        }
+    }
     func handleSave() {
         if(currentNote.noteid == "n/a") {
+            setStr(text: "Saving new note...")
             newNote(note: Note(noteid: "n/a", title: title, contents: cont))
         } else {
+            setStr(text: "Saving note...")
             updateNote(note: Note(noteid: currentNote.noteid, title: title, contents: cont))
         }
     }
@@ -247,7 +260,9 @@ struct Login: View {
         if(ret["status"] as! Int == 201) {
             current_data.all_notes.append(Note(noteid: ret["note_id"] as! String, title: note.title, contents: note.contents))
             currentNote = Note(noteid: ret["note_id"] as! String, title: note.title, contents: note.contents)
+            setStr(text: "Created new note!")
         } else {
+            setStr(text: "New note creation failed!")
             print(ret)
             print("the funny occurred!!! (unable to make new note)")
         }
@@ -260,7 +275,9 @@ struct Login: View {
             }
             current_data.all_notes.append(Note(noteid: note.noteid, title: note.title, contents: note.contents))
             currentNote = Note(noteid: note.noteid, title: note.title, contents: note.contents)
+            setStr(text: "Saved note!")
         } else {
+            setStr(text: "Unable to save note!")
             print("the funny occurred!!! (unable to update note)")
         }
     }
