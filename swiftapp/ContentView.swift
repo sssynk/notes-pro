@@ -8,7 +8,19 @@
 import SwiftUI
 import WebKit
 import Combine
+import Foundation
+import Foundation
+import AppKit
 
+class AppDelegate: NSObject, NSApplicationDelegate {
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return true
+    }
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        print("Info from `applicationDidFinishLaunching(_:): Finished launching…")
+        let _ = NSApplication.shared.windows.map { $0.tabbingMode = .disallowed }
+    }
+}
 
 struct Note: Identifiable, Equatable {
     let id = UUID()
@@ -26,10 +38,15 @@ class CurrentApp: ObservableObject {
     @Published var note = Note(noteid: "", title: "none", contents: "none")
 }
 
+
 struct ContentView: View {
+    @State private var window_n: NSWindow?
+    @State private var window_o: NSWindow?
+
     @StateObject var current_data = CurrentApp()
     @State var username: String = ""
     @State var password: String = ""
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @State var errortext: String = ""
     @Environment(\.openURL) var openURL
     let myWindow:NSWindow?
@@ -69,6 +86,10 @@ struct ContentView: View {
                 Text(errortext)
                     .foregroundColor(Color.orange)
                     .padding(.top, 600)
+                
+                Text("James Wilson 2021")
+                    .foregroundColor(Color.white)
+                    .padding(.top, 800)
             }
             
         }
@@ -79,6 +100,8 @@ struct ContentView: View {
     func logUser() {
         let request = requestLogin(username: username, password: password)
         if (request == true) {
+            
+            window_o = NSApplication.shared.keyWindow
             NSApplication.shared.keyWindow?.close()
             
             //openURL(url)
@@ -94,15 +117,20 @@ struct ContentView: View {
                 }
             }
             
-            let window = NSWindow(contentRect: NSRect(x: 20, y: 20, width: 480, height: 300), styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView], backing: .buffered, defer: false)
-            window.center()
-            window.setFrameAutosaveName("Main Window")
-            window.contentView = NSHostingView(rootView: Login().environmentObject(current_data))
-            window.makeKeyAndOrderFront(nil)
-            window.title = "Notes Pro"
+            window_n = NSWindow(contentRect: NSRect(x: 20, y: 20, width: 480, height: 300), styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView], backing: .buffered, defer: false)
+            window_n!.center()
+            window_n!.setFrameAutosaveName("Main Window")
+            window_n!.contentView = NSHostingView(rootView: Login().environmentObject(current_data))
+            window_n!.makeKeyAndOrderFront(nil)
+            window_n!.title = "Notes Pro"
         } else {
             errortext = "Incorrect Username or Password!"
             password = ""
+            let alert = NSAlert()
+            alert.messageText = "Incorrect Username/Password!"
+            alert.addButton(withTitle: "OK")
+            alert.alertStyle = .informational
+            alert.runModal()
         }
     }
     func requestLogin(username: String, password: String) -> Bool {
@@ -189,10 +217,12 @@ struct Login: View {
     @State var cont: String = ""
     @State var savestr: String = ""
     @State var autoSaveEnabled = true
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @State var currentNote: Note = Note(noteid: "n/a", title: "n/a", contents: "n/a")
     @EnvironmentObject private var current_data: CurrentApp
     var body: some View {
         HStack {
+            ScrollViewReader { this_list in
             List {
                 ForEach(current_data.all_notes.reversed()) { note in
                     Button("\(note.title)\n\(note.contents)"){
@@ -205,6 +235,7 @@ struct Login: View {
                         .zIndex(1)
                 }
             }.animation(.interactiveSpring())
+            }
             .frame(width: 300, height: 500, alignment: .leading)
             ZStack {
                 HStack {
@@ -442,3 +473,4 @@ private final class ObservableDebounceSubject<Output: Equatable, Failure>: Subje
             .receive(subscriber: subscriber)
     }
 }
+

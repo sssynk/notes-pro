@@ -35,7 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		101D76B0278CBFD5005423E0 /* swiftapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = swiftapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		101D76B0278CBFD5005423E0 /* Notes Pro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Notes Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		101D76B3278CBFD5005423E0 /* swiftappApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swiftappApp.swift; sourceTree = "<group>"; };
 		101D76B5278CBFD5005423E0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		101D76B7278CBFD7005423E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -88,7 +88,7 @@
 		101D76B1278CBFD5005423E0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				101D76B0278CBFD5005423E0 /* swiftapp.app */,
+				101D76B0278CBFD5005423E0 /* Notes Pro.app */,
 				101D76C1278CBFD7005423E0 /* swiftappTests.xctest */,
 				101D76CB278CBFD7005423E0 /* swiftappUITests.xctest */,
 			);
@@ -137,9 +137,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		101D76AF278CBFD5005423E0 /* swiftapp */ = {
+		101D76AF278CBFD5005423E0 /* Notes Pro */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 101D76D5278CBFD7005423E0 /* Build configuration list for PBXNativeTarget "swiftapp" */;
+			buildConfigurationList = 101D76D5278CBFD7005423E0 /* Build configuration list for PBXNativeTarget "Notes Pro" */;
 			buildPhases = (
 				101D76AC278CBFD5005423E0 /* Sources */,
 				101D76AD278CBFD5005423E0 /* Frameworks */,
@@ -149,9 +149,9 @@
 			);
 			dependencies = (
 			);
-			name = swiftapp;
+			name = "Notes Pro";
 			productName = swiftapp;
-			productReference = 101D76B0278CBFD5005423E0 /* swiftapp.app */;
+			productReference = 101D76B0278CBFD5005423E0 /* Notes Pro.app */;
 			productType = "com.apple.product-type.application";
 		};
 		101D76C0278CBFD7005423E0 /* swiftappTests */ = {
@@ -226,7 +226,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				101D76AF278CBFD5005423E0 /* swiftapp */,
+				101D76AF278CBFD5005423E0 /* Notes Pro */,
 				101D76C0278CBFD7005423E0 /* swiftappTests */,
 				101D76CA278CBFD7005423E0 /* swiftappUITests */,
 			);
@@ -292,12 +292,12 @@
 /* Begin PBXTargetDependency section */
 		101D76C3278CBFD7005423E0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 101D76AF278CBFD5005423E0 /* swiftapp */;
+			target = 101D76AF278CBFD5005423E0 /* Notes Pro */;
 			targetProxy = 101D76C2278CBFD7005423E0 /* PBXContainerItemProxy */;
 		};
 		101D76CD278CBFD7005423E0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 101D76AF278CBFD5005423E0 /* swiftapp */;
+			target = 101D76AF278CBFD5005423E0 /* Notes Pro */;
 			targetProxy = 101D76CC278CBFD7005423E0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -434,15 +434,16 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = swiftapp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Notes Pro";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jamesssystems.swiftapp;
-				PRODUCT_NAME = swiftapp;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jamesssystems.notespro;
+				PRODUCT_NAME = "Notes Pro";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -464,15 +465,16 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = swiftapp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Notes Pro";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jamesssystems.swiftapp;
-				PRODUCT_NAME = swiftapp;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jamesssystems.notespro;
+				PRODUCT_NAME = "Notes Pro";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -562,7 +564,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		101D76D5278CBFD7005423E0 /* Build configuration list for PBXNativeTarget "swiftapp" */ = {
+		101D76D5278CBFD7005423E0 /* Build configuration list for PBXNativeTarget "Notes Pro" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				101D76D6278CBFD7005423E0 /* Debug */,

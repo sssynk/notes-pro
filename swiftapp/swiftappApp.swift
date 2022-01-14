@@ -13,10 +13,13 @@ struct swiftappApp: App {
         WindowGroup {
             ContentView(myWindow: nil)
                 .navigationTitle("Notes Pro - Login")
+        }.commands {
+            CommandGroup(replacing: .newItem, addition: { })
         }
         .handlesExternalEvents(matching: Set(arrayLiteral: "viewer")) // create new window if one doesn't exist
         WindowGroup("Login") { // other scene
-            Login().handlesExternalEvents(preferring: Set(arrayLiteral: "login"), allowing: Set(arrayLiteral: "*")) // activate existing window if exists
+        }.commands {
+            CommandGroup(replacing: .newItem, addition: { })
         }
         .handlesExternalEvents(matching: Set(arrayLiteral: "login")) // create new window if one doesn't exist
     }
